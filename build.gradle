@@ -1,0 +1,116 @@
+import java.util.stream.Collectors
+
+plugins {
+//    id 'org.springframework.boot' version '2.2.6.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+}
+
+allprojects {
+
+    apply plugin: 'groovy'
+    apply plugin: 'idea'
+    apply plugin: 'java'
+    apply plugin: 'maven'
+
+    group = 'com.cai'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '1.8'
+
+    repositories {
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+        maven { url "http://47.102.222.185:30021/repository/maven-public" }
+        maven { url "http://repo.spring.io/libs-release" }
+        mavenLocal()
+    }
+
+    ext {
+        SPRING_BOOT_VERSION = '2.2.6.RELEASE'
+    }
+
+    dependencies {
+        compile "org.springframework.boot:spring-boot-starter:$SPRING_BOOT_VERSION"
+        compile("org.springframework.boot:spring-boot-starter-tomcat:$SPRING_BOOT_VERSION")
+        compile("org.springframework.boot:spring-boot-starter-test:$SPRING_BOOT_VERSION")
+        testCompile("org.springframework.boot:spring-boot-starter-test:$SPRING_BOOT_VERSION") {
+            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        }
+        compile 'org.codehaus.groovy:groovy-all:2.3.3'
+        compile("org.springframework.boot:spring-boot-starter-web:$SPRING_BOOT_VERSION"){
+            exclude group: 'com.fasterxml.jackson.core'
+            exclude group: 'com.fasterxml.jackson.datatype'
+        }
+        compile group: 'org.gradle', name: 'gradle-core', version: '3.5'
+        compileClasspath("org.springframework.boot:spring-boot-gradle-plugin:$SPRING_BOOT_VERSION")
+
+        compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.8'
+        compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.8'
+        compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.8'
+        compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.8",
+                "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.8"
+        compile group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: "$SPRING_BOOT_VERSION"
+        compile("org.yaml:snakeyaml:1.25")
+        compile group: 'org.codehaus.gpars', name: 'gpars', version: '1.2.1'
+        compile("com.google.guava:guava:28.1-jre")
+    }
+
+//    uploadArchives {
+//        repositories {
+//            mavenDeployer   {
+//                repository(url: localRepositoryPath)
+//                pom.project {
+//                    name = project.name        // 当前项目名称
+//                    version = project.version   //当前项目版本  0.0.1
+//                    groupId = project.group     //  当前项目组  com.xxx
+//                }
+//            }
+//        }
+//    }
+
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                repository(url: "${nexusUrl}/repository/maven-releases/") {
+                    authentication(userName: nexusUsername, password: nexusPassword)
+                }
+                snapshotRepository(url: "${nexusUrl}/repository/maven-snapshots/") {
+                    authentication(userName: nexusUsername, password: nexusPassword)
+                }
+            }
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+//// 1
+//4.times {counter->
+//    task ("task$counter") {
+//        doLast {
+//            println "I'am task number $counter"
+//        }
+//    }
+//}
+
+//task0.dependsOn task2, task3
+
+//// 2 文件操作
+//File[] findFiles(String dir){
+//    List files = Arrays.asList(file('E:\\ittx\\async-rabbit-template').listFiles()).stream().filter({it->
+//        it.isFile()
+//    }).sorted().collect(Collectors.toList())
+//    println files
+//    files
+//}
+//
+//task checkFile {
+//    doLast {
+////        println this.getClass().getResource("/").getPath()
+//        findFiles('E:\\ittx\\async-rabbit-template').each {file->
+//            println file.text
+//        }
+//    }
+//}
+//
+//task0.dependsOn task1, task2
+//checkFile.dependsOn 'task0'
