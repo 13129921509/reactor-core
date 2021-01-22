@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.cai.reactor.config.ReactorAutoConfiguration
+
+org.springframework.context.ApplicationListener=\
+  com.cai.reactor.config.InitAgentApplicationListener

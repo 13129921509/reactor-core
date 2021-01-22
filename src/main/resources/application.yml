@@ -1,0 +1,7 @@
+reactor:
+  threadOfNumber: 10
+  agent: com.cai.reactor.core.ParallelAgent
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
