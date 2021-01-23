@@ -6,7 +6,7 @@ import groovyx.gpars.GParsExecutorsPool
 
 import java.util.concurrent.ThreadFactory
 
-class ParallelAgent extends DefaultAgent{
+class ParallelAgent extends DefaultAgent implements Parallel{
 
     private int numberOfThread = 5
 

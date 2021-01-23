@@ -1,6 +1,7 @@
 package com.cai.reactor.config
 
 import com.cai.reactor.core.Agent
+import com.cai.reactor.core.Parallel
 import com.cai.reactor.core.Publisher
 import com.cai.reactor.core.SimplePublisher
 import org.springframework.beans.BeansException
@@ -24,7 +25,9 @@ class ReactorAutoConfiguration implements ApplicationContextAware{
     Agent agent(ReactorSetting reactorSetting){
         try{
             Class<Agent> a = Class.forName(reactorSetting.agent as String)
-            return a.newInstance(reactorSetting.threadOfNumber)
+            if (a instanceof Parallel)
+                return a.newInstance(reactorSetting.threadOfNumber)
+            return a.newInstance()
         }catch(Throwable t){
             throw new ReactorException("Class :$reactorSetting.agent => Agent error!!!")
         }

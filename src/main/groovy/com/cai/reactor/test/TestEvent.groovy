@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 class TestEvent implements Event{
     @Override
     String topic() {
-        return "com.test.value"
+        return "?.com.?"
     }
 
     @Override
